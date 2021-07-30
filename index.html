@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>demo: aframe-maze-component</title>
+  <meta name="description" content="demo: aframe-maze-component">
+  <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
+  <script src="//cdn.rawgit.com/donmccurdy/aframe-extras/v3.13.1/dist/aframe-extras.min.js"></script>
+  <script src="https://unpkg.com/aframe-look-at-component@0.6.0/dist/aframe-look-at-component.min.js"></script>
+  <script src="https://unpkg.com/aframe-maze-component@0.1.24/dist/aframe-maze-component.min.js"></script>
+  <script src="js/aframe-physics-system.js"></script>
+  <script src="js/aframe-extras.js.js"></script>
+  <script src="js/main.js"></script>
+</head>
+<body>
+<a-scene physics="debug: false">
+  <a-assets>
+    <img id="texture-wall" src="img/wall.jpg">
+    <img id="texture-floor" src="img/floor.jpg">
+    <a-box id="wall-one"
+           static-body material="src: #texture-wall"
+           depth="1" width="4" height="5"></a-box>
+    <a-cylinder id="end-cap"
+                static-body color="black"
+                depth="1.1" width="1.1" height="5"
+                radius="0.5"></a-cylinder>
+  </a-assets>
+  <a-sky id="sky" color="black"></a-sky>
+
+
+  <a-entity camera look-controls  position="0 25 0" rotation="270 0 0">
+  </a-entity>
+
+<!--pacman-->
+    <a-sphere
+        universal-controls kinematic-body
+               position="0 1.25 -2" radius="1" color="yellow">
+
+    </a-sphere>
+
+  <!--ghosts-->
+  <a-sphere
+      dynamic-body
+      position="-5 1 -4" radius="1" color="blue">
+  </a-sphere>
+
+  <!--coins-->
+  <a-sphere
+      static-body
+      position="-11 0 -10" radius="0.3" color="yellow">
+  </a-sphere>
+
+  <a-sphere
+      static-body
+      position="-10 0 -20" radius="0.3" color="yellow">
+  </a-sphere>
+
+
+  <a-entity id="maze4"
+            maze='size: 10 10; wall: #wall-one; cap: #end-cap;'
+            position='0 0 0'></a-entity>
+
+
+  <a-grid id="ground" width="50" height="50" static-body material="src: #texture-floor"></a-grid>
+</a-scene>
+</body>
+</html>
