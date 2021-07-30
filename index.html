@@ -13,11 +13,12 @@
   <script src="js/main.js"></script>
 </head>
 <body>
-<a-scene physics="debug: false" stats>
+<a-scene physics="debug: false" >
   <a-assets>
     <img id="texture-wall" src="img/wall.jpg">
     <img id="texture-floor" src="img/floor.jpg">
     <a-box id="wall-one"
+           wall
            static-body material="src: #texture-wall"
            depth="1" width="4" height="5"></a-box>
     <a-cylinder id="end-cap"
@@ -34,7 +35,7 @@
 <!--pacman-->
     <a-sphere
         universal-controls kinematic-body
-               position="0 0.5 -2" radius="1"
+               position="5 0.5 -1" radius="1"
         id="target"
         color="yellow"
         pacman
@@ -48,28 +49,28 @@
       dynamic-body
       ghost
       class = "ghost"
-      position="-5 0.5 -4" radius="1" color="red">
+      position="-5 0.5 -10" radius="1" color="red">
   </a-sphere>
 
   <a-sphere
       dynamic-body
       ghost
       class = "ghost"
-      position="-15 0.5 -4" radius="1" color="pink">
+      position="-17 0.5 -18" radius="1" color="#DEA185">
   </a-sphere>
 
   <a-sphere
       dynamic-body
       ghost
       class = "ghost"
-      position="-25 0.5 -4" radius="1" color="lightblue">
+      position="18 0.5 -18" radius="1" color="#2121DE">
   </a-sphere>
 
   <a-sphere
       dynamic-body
       ghost
       class = "ghost"
-      position="-28 0.5 -4" radius="1" color="#8B8000">
+      position="17 0.5 17" radius="1" color="#8B8000">
   </a-sphere>
 
 
@@ -79,7 +80,7 @@
       static-body
       coin
       class = "coin"
-      position="-11 0 -10" radius="0.3" color="yellow">
+      position="-11 0 -10" radius="0.3" color="#DEA185">
   </a-sphere>
 
   <a-sphere
