@@ -18,8 +18,9 @@ AFRAME.registerComponent('ghost', {
     var distance = dt*this.data.speed / 4000;
     this.el.object3D.translateOnAxis(targetPos, distance);
     if (this.el.components["dynamic-body"]) {
+      //required for dynamic body otherwise doesn't work
       this.el.components["dynamic-body"].syncToPhysics()
-    }// doesn't work for box1
+    }
 
   }
 })

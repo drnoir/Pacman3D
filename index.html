@@ -13,7 +13,7 @@
   <script src="js/main.js"></script>
 </head>
 <body>
-<a-scene physics="debug: true" stats>
+<a-scene physics="debug: false" stats>
   <a-assets>
     <img id="texture-wall" src="img/wall.jpg">
     <img id="texture-floor" src="img/floor.jpg">
@@ -45,8 +45,23 @@
       dynamic-body
       ghost
       class = "ghost"
-      position="-5 0.5 -4" radius="1" color="blue">
+      position="-5 0.5 -4" radius="1" color="red">
   </a-sphere>
+
+  <a-sphere
+      dynamic-body
+      ghost
+      class = "ghost"
+      position="-15 0.5 -4" radius="1" color="pink">
+  </a-sphere>
+
+  <a-sphere
+      dynamic-body
+      ghost
+      class = "ghost"
+      position="-25 0.5 -4" radius="1" color="lightblue">
+  </a-sphere>
+
 
   <!--coins-->
   <a-sphere
