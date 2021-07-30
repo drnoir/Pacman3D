@@ -25,4 +25,26 @@ AFRAME.registerComponent('ghost', {
   }
 })
 
+AFRAME.registerComponent('pacman', {
+
+  init: function() {
+    this.el.addEventListener('collide', function (e) {
+      console.log('Pacman has collided with ', e.detail.body.el);
+      e.detail.target.el; // Original entity (playerEl).
+      e.detail.body.el; // Other entity, which playerEl touched.
+      e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
+      e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
+      console.log('NAME' + e.detail.body.el.className);
+
+      if (e.detail.body.el.className === "coin") {
+        console.log("coin");
+        const box = document.querySelector('a-sphere');
+        let winboxRemove = e.detail.body.el;
+        box.parentNode.removeChild(winboxRemove);
+        // document.getElementById('pickup').play();
+      }
+    });
+  },
+
+})
 

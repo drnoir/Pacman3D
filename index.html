@@ -36,7 +36,10 @@
         universal-controls kinematic-body
                position="0 0.5 -2" radius="1"
         id="target"
-        color="yellow">
+        color="yellow"
+        pacman
+        class = "pacman"
+    >
 
     </a-sphere>
 
@@ -62,10 +65,20 @@
       position="-25 0.5 -4" radius="1" color="lightblue">
   </a-sphere>
 
+  <a-sphere
+      dynamic-body
+      ghost
+      class = "ghost"
+      position="-28 0.5 -4" radius="1" color="#8B8000">
+  </a-sphere>
+
+
 
   <!--coins-->
   <a-sphere
       static-body
+      coin
+      class = "coin"
       position="-11 0 -10" radius="0.3" color="yellow">
   </a-sphere>
 
@@ -82,5 +95,6 @@
 
   <a-grid id="ground" width="50" height="50" static-body material="src: #texture-floor"></a-grid>
 </a-scene>
+<h1>Lives</h1>
 </body>
 </html>
