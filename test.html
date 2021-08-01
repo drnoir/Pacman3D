@@ -1,0 +1,92 @@
+<html>
+
+<head>
+  <script src="https://aframe.io/releases/0.8.2/aframe.min.js"></script>
+  <script src="https://unpkg.com/aframe-extras/dist/aframe-extras.min.js"></script>
+
+  <script src="https://cdn.rawgit.com/donmccurdy/aframe-physics-system/v3.1.2/dist/aframe-physics-system.min.js"></script>
+  <script src="https://unpkg.com/aframe-physics-extras/dist/aframe-physics-extras.min.js"></script>
+  <script src="https://unpkg.com/super-hands@2.1.0/dist/super-hands.min.js"></script>
+
+  <script>
+
+    AFRAME.registerComponent ("translate", {
+      init: function () {
+        this.direction = new THREE.Vector3(0.0, 0.01, 0.0);
+      },
+
+      tick: function (time) {
+        var el = this.el;
+        var direction = this.direction;
+        var elVec = el.object3D.position;
+
+        el.setAttribute('position', {x: elVec.x + direction.x,
+          y: elVec.y + direction.y,
+          z: elVec.z + direction.z});
+        if (el.components["dynamic-body"]) {
+          el.components["dynamic-body"].syncToPhysics()
+        }// doesn't work for box1
+      }
+    });
+
+    AFRAME.registerComponent ("another-translate", {
+      init: function () {
+        this.direction = new THREE.Vector3(0.0, 0.01, 0.0);
+      },
+
+      tick: function (time) {
+        var el = this.el;
+        var direction = this.direction;
+        var elVec = el.object3D.position;
+
+        el.removeAttribute('dynamic-body'); // works, but physics-extras seems to get mad
+        el.setAttribute('position', {x: elVec.x + direction.x,
+          y: elVec.y + direction.y,
+          z: elVec.z + direction.z});
+        el.setAttribute('dynamic-body', true);
+      }
+    });
+
+  </script>
+</head>
+
+<body>
+
+<a-scene physics="gravity: 0; debug: true" stats>
+  <a-assets>
+    <a-mixin id="mytouch"
+             physics-collider
+             static-body="shape: sphere; sphereRadius: 0.05"
+             super-hands="colliderEvent: collisions;
+                       colliderEventProperty: els;
+                       colliderEndEvent: collisions;
+                       colliderEndEventProperty: clearedEls;
+                       grabStartButtons: gripdown, mousedown;
+                       grabEndButtons: gripup, mouseup;
+                       stretchStartButtons: triggerdown, mousedown;
+                       stretchEndButtons: triggerup, mouseup"
+             collision-filter="group: hands;
+                            collidesWith: surface;
+                            collisionForces: false"></a-mixin>
+
+    <a-mixin id="cube" dynamic-body grabbable hoverable stretchable></a-mixin>
+  </a-assets>
+
+  <a-entity progressive-controls="touchMixin: mytouch; override: true">
+    <a-entity id="rhand" class="right-controller"></a-entity>
+    <a-entity id="lhand" class="left-controller"></a-entity>
+  </a-entity>
+
+  <a-box id="box1" mixin="cube" position="-1.5 2 -3" color="blue"
+         collision-filter="group: red; collidesWith: default" translate></a-box>
+
+  <a-box id="box2" mixin="cube" position="-0 2 -3" color="red"
+         collision-filter="group: red; collidesWith: default" another-translate></a-box>
+
+  <a-box id="box3" position="1.5 2 -3" color="green" translate></a-box>
+
+</a-scene>
+
+</body>
+
+</html>

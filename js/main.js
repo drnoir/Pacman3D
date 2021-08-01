@@ -6,6 +6,17 @@ function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+function MakeLarge(){
+  console.log("attack on");
+  const delayInMilliseconds = 10000; //1 second
+  pacManAttck = true;
+  setTimeout(function() {
+    pacManAttck = false;
+    console.log("attack off");
+  }, delayInMilliseconds);
+
+}
+
 AFRAME.registerComponent('ghost', {
   schema: {
     speed: {
@@ -57,18 +68,21 @@ AFRAME.registerComponent('ghost', {
   tick: function(t, dt) {
     const currentPosition = this.el.object3D.position;
     const distanceToTarget = currentPosition.distanceTo(target.object3D.position);
+    const targetPos = this.el.object3D.worldToLocal(target.object3D.position.clone())
+    const distance = dt*this.data.speed / 3000;
+    this.el.object3D.translateOnAxis(targetPos, distance);
     // console.log(currentPosition.x );
     // if (distanceToTarget > 6){
 
-      let x = currentPosition.x;
-      let y = currentPosition.y;
-      let z = currentPosition.z;
-      let rand = getRandomInt(0,1)
-      let randX=  x+rand;
-      let randZ=  z+rand;
+      // let x = currentPosition.x;
+      // let y = currentPosition.y;
+      // let z = currentPosition.z;
+      // let rand = getRandomInt(0,1)
+      // let randX=  x+rand;
+      // let randZ=  z+rand;
       // this.el.object3D.position.set(randX, randY, z);
-      this.el.object3D.position.x += rand;
-     this.el.object3D.position.z += rand;
+     //  this.el.object3D.position.x += rand;
+     // this.el.object3D.position.z += rand;
     //   if (this.el.components["dynamic-body"]) {
     //     //required for dynamic body otherwise doesn't work
     //     this.el.components["dynamic-body"].syncToPhysics()
@@ -77,8 +91,8 @@ AFRAME.registerComponent('ghost', {
 
     if (distanceToTarget < 1) return;
     // seek player function
-    const targetPos = this.el.object3D.worldToLocal(target.object3D.position.clone())
-    const distance = dt*this.data.speed / 4000;
+    // const targetPos = this.el.object3D.worldToLocal(target.object3D.position.clone())
+    // const distance = dt*this.data.speed / 4000;
     this.el.object3D.translateOnAxis(targetPos, distance);
     if (this.el.components["dynamic-body"]) {
       //required for dynamic body otherwise doesn't work
@@ -91,7 +105,6 @@ AFRAME.registerComponent('ghost', {
 })
 
 AFRAME.registerComponent('pacman', {
-
   init: function() {
     this.el.addEventListener('collide', function (e) {
       e.detail.target.el; // Original entity (playerEl).
@@ -99,10 +112,20 @@ AFRAME.registerComponent('pacman', {
       e.detail.contact; // Stats about the collision (CANNON.ContactEquation).
       e.detail.contact.ni; // Normal (direction) of the collision (CANNON.Vec3).
 
-      if (e.detail.body.el.className === "coin") {
+      if (e.detail.body.el.className === "coin" ) {
         const box = document.querySelector('a-sphere');
         let winboxRemove = e.detail.body.el;
         box.parentNode.removeChild(winboxRemove);
+        score++;
+        console.log(score);
+        // document.getElementById('pickup').play();
+      }
+
+      if (e.detail.body.el.className === "coinLarge" ) {
+        const box = document.querySelector('a-sphere');
+        let winboxRemove = e.detail.body.el;
+        box.parentNode.removeChild(winboxRemove);
+        MakeLarge();
         score++;
         console.log(score);
         // document.getElementById('pickup').play();
